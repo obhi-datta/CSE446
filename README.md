@@ -1,28 +1,17 @@
 
 
-### Install Dependencies (frontend & backend)
+### Install Dependencies (bank; ecommerce; and frontend )
 
 ```
 npm install
-cd frontend
-npm install
 ```
 
-### Run
-
-```
-# Run frontend (:3000) & backend (:5000)
-npm run dev
-
-# Run backend only
-npm run server
+# Run bank
+npm start
 ```
 
-## Build & Deploy
+# Run ecommerce
+npm start
 
-```
-# Create frontend prod build
-cd frontend
-npm run build
-```
-
+# Run frontend 
+npm start
