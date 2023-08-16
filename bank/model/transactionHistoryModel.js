@@ -18,8 +18,9 @@ const transactionSchema=  new Schema({
 transactionSchema.methods.transfer = async function(acNoIn,acNoOut,amount){
     const info = this
     const accountInInfo =  await BankInformation.findOne({acNo:acNoIn})
+    console.log('acc', accountInInfo, acNoIn)
     const accountOutInfo =  await BankInformation.findOne({acNo:acNoOut})
-    
+    console.log('acc bal',accountInInfo.balance)
     accountInInfo.balance =  parseInt(accountInInfo.balance) + parseInt(amount);
     accountOutInfo.balance = parseInt(accountOutInfo.balance) - parseInt(amount);
 
@@ -30,10 +31,6 @@ transactionSchema.methods.transfer = async function(acNoIn,acNoOut,amount){
     await info.save()
     
 }
-
-
-
-
 
 const Transaction = model('Transaction',transactionSchema); 
 module.exports = Transaction;

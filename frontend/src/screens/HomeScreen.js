@@ -28,7 +28,7 @@ function Home() {
   return (
     <div style={{width:'90%', paddingLeft:'8%'}}>
       {localStorage.getItem('role') === 'supplier' && 
-      <div style={{marginLeft:"4%", marginTop:'10px', display:'flex', justifyContent:'space'}}>
+      <div style={{marginLeft:"4%", marginTop:'10px', display:'flex', justifyContent:'space-between'}}>
         <h2>Products</h2>
         <Button variant="contained"  style={{marginRight:'2%'}}
         onClick={e=>{setModal(true)}}
@@ -37,18 +37,18 @@ function Home() {
       </div>
 }
       <div style={{ display: "flex", justifyContent: "space-around", width: "1200px" }}>
-        <>
+        
 
           {
             products.map((prod) => {
               return (
-                <Product image={prod.image} name={prod.name} price={prod.price} description={prod.description} countInStock={prod.quantity} id={prod.product} seller={prod.seller} />
+                <Product image={prod.image} name={prod.name} price={prod.price} description={prod.description} countInStock={prod.quantity} id={prod.product} seller={prod.seller}  />
               )
             })
           }
 
 
-        </>
+        
       </div>
     </div>
 

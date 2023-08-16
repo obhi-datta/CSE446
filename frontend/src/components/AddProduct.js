@@ -15,67 +15,74 @@ function AddProduct({ modal, setModal, product }) {
   const [quantity, setQuantity] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null)
- 
+
   const [seller, setSeller] = useState("")
   const [productID, setProductID] = useState("");
   // console.log(localStorage.getItem("supplier"));
 
   const handleClose = () => setModal(false);
-  
+
   const handleChange = async (e) => {
     e.preventDefault();
 
-      // const data = new FormData();
-      // data.set("name", name);
-      // data.set("price", price);
-      // data.set("description", description);
-     
-      // data.set("quantity", quantity);
-      // // data.set("sellerID", sellerID);
-      // data.set("image", selectedFile);
-      
-      console.log(seller)
-      await axios
-        .post("http://localhost:4001/product/add", {
-          name,price, seller, quantity, description, image
-        } )
-        .then((response) => {
-          console.log(response);
-          if (response.status === 200) {
-            setTimeout(() => {
-              toast.success("new product added");
-            }, 1000);
-            handleClose()
-            navigate('/')
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          toast.error(e.message);
-        });
-    
+    // const data = new FormData();
+    // data.set("name", name);
+    // data.set("price", price);
+    // data.set("description", description);
+
+    // data.set("quantity", quantity);
+    // // data.set("sellerID", sellerID);
+    // data.set("image", selectedFile);
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('description', description);
+    formData.append('quantity', quantity);
+    formData.append('seller', seller);
+    formData.append('image', image);
+    console.log(formData)
+    console.log(seller)
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+    await axios
+      .post("http://localhost:4001/product/add", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          setTimeout(() => {
+            toast.success("new product added");
+          }, 1000);
+          navigate('/')
+          handleClose()
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error(e.message);
+      });
+
   };
-  useEffect(()=>{
+  useEffect(() => {
     !seller && setSeller(JSON.parse(localStorage.getItem("user")).acNo)
     console.log(JSON.parse(localStorage.getItem("user")).acNo)
-  },[])
+  }, [])
 
 
   return (
     <>
-    {/* {seller && */}
+      {/* {seller && */}
       <Modal show={modal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-          
-              {/* <Form.Group className="mb-3" controlId="productAdd">
-                <Form.Label style={{ fontWeight: "bold" }}>SellerID</Form.Label>
-                <Form.Control type="string" value={sellerID} />
-              </Form.Group> */}
-      
+          <Form enctype="multipart/form-data">
+
             <Form.Group className="mb-3" controlId="productAdd">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Product name
@@ -97,7 +104,7 @@ function AddProduct({ modal, setModal, product }) {
                 type="file"
                 placeholder="select an image"
                 // value={name}
-                onChange={(e) => setSelectedFile(e.target.files[0])}
+                onChange={(e) => setImage(e.target.files[0])}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="productAdd">
@@ -121,7 +128,7 @@ function AddProduct({ modal, setModal, product }) {
                 placeholder="Enter price"
               />
             </Form.Group>
-            
+
             <Form.Group className="mb-3" controlId="productAdd">
               <Form.Label style={{ fontWeight: "bold" }}> In-stock</Form.Label>
               <Form.Control
@@ -132,7 +139,7 @@ function AddProduct({ modal, setModal, product }) {
                 placeholder="how many in stock?"
               />
             </Form.Group>
-            
+
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -147,9 +154,9 @@ function AddProduct({ modal, setModal, product }) {
           </Button>
         </Modal.Footer>
       </Modal>
-{/* } */}
+      {/* } */}
     </>
-            
+
   );
 }
 

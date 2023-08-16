@@ -21,13 +21,6 @@ app.use(express.json());
 app.use('/bank',bankRoute)
 app.use('/transaction',transactionRoute)
 
-
-
-
-
-
-
-
 app.listen(port,()=>{
     console.log(`bank running on port ${port}`);
 })
